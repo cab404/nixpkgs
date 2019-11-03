@@ -110,6 +110,10 @@ rec {
       ./no-buildconfig-ffx65.patch
     ];
 
+    # fix build with gcc9
+    hardeningDisable = [ "format" ];
+    NIX_CFLAGS_COMPILE = [ "-Wno-error=format-security" ];
+
     meta = firefox.meta // {
       description = "A web browser built from Firefox Extended Support Release source tree";
     };
