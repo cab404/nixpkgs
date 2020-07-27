@@ -121,6 +121,8 @@ in
 
   appimageTools = callPackage ../build-support/appimage { };
 
+  appvm = callPackage ../applications/virtualization/appvm { };
+
   ensureNewerSourcesHook = { year }: makeSetupHook {}
     (writeScript "ensure-newer-sources-hook.sh" ''
       postUnpackHooks+=(_ensureNewerSources)
