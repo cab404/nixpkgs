@@ -1001,6 +1001,7 @@
   ./tasks/powertop.nix
   ./testing/service-runner.nix
   ./virtualisation/anbox.nix
+  ./virtualisation/appvm.nix
   ./virtualisation/container-config.nix
   ./virtualisation/containers.nix
   ./virtualisation/nixos-containers.nix
