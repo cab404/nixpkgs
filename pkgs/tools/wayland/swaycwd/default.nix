@@ -9,8 +9,8 @@ nimPackages.buildNimPackage {
     src = fetchFromGitLab {
       owner = "cab404";
       repo = "swaycwd";
-      rev = "aca81695ec2102b9bca6f5bae364f69a8b9d399f";
-      hash = "sha256-MkyY3wWByQo0l0J28xKDfGtxfazVPRyZHCObl9Fszh4=";
+      rev = "956611f2ecf6c031137e4df04e1fca4e0c86e98b";
+      hash = "sha256-OZWOPtOqcX+fVQCxWntrn98EzFu70WH55rfYCPDMSKk=";
     };
 
     preConfigure = ''
