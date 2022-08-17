@@ -67,9 +67,9 @@ stdenv.mkDerivation rec {
 
     makeWrapper ${nodejs}/bin/node $out/bin/outline-sequelize \
       --add-flags $node_modules/.bin/sequelize \
-      --add-flags --migrations-path $build/server/migrations \
-      --add-flags --models-path $build/server/models \
-      --add-flags --seeders-path $build/server/models/fixtures \
+      --add-flags "--migrations-path $build/server/migrations" \
+      --add-flags "--models-path $build/server/models" \
+      --add-flags "--seeders-path $build/server/models/fixtures" \
       --set NODE_ENV production \
       --set NODE_PATH $node_modules
 

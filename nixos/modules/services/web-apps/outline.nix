@@ -579,7 +579,7 @@ in
       # at least one occurrence of outline calling this from its own code.
       sequelize = pkgs.writeShellScriptBin "outline-sequelize" ''
         exec ${cfg.package}/bin/outline-sequelize \
-          --config /run/outline/database.json \
+          --config $RUNTIME_DIRECTORY/database.json \
           ${cfg.sequelizeArguments} \
           "$@"
       '';
@@ -619,9 +619,9 @@ in
           WEB_CONCURRENCY = builtins.toString cfg.concurrency;
           MAXIMUM_IMPORT_SIZE = builtins.toString cfg.maximumImportSize;
           DEBUG = cfg.debugOutput;
-          GOOGLE_ANALYTICS_ID = lib.lib.optionalString (cfg.googleAnalyticsId != null) cfg.googleAnalyticsId;
-          SENTRY_DSN = lib.lib.optionalString (cfg.sentryDsn != null) cfg.sentryDsn;
-          TEAM_LOGO = lib.lib.optionalString (cfg.logo != null) cfg.logo;
+          GOOGLE_ANALYTICS_ID = lib.optionalString (cfg.googleAnalyticsId != null) cfg.googleAnalyticsId;
+          SENTRY_DSN = lib.optionalString (cfg.sentryDsn != null) cfg.sentryDsn;
+          TEAM_LOGO = lib.optionalString (cfg.logo != null) cfg.logo;
           DEFAULT_LANGUAGE = cfg.defaultLanguage;
 
           RATE_LIMITER_ENABLED = builtins.toString cfg.rateLimiter.enable;
@@ -679,7 +679,7 @@ in
         # The config file is required for the CLI, the DATABASE_URL environment
         # variable is read by the app.
         ${if (cfg.databaseUrl == "local") then ''
-          cat <<EOF >> /run/outline/database.json
+          cat <<EOF > $RUNTIME_DIRECTORY/database.json
           {
             "production": {
               "dialect": "postgres",
@@ -692,7 +692,7 @@ in
           export DATABASE_URL=${lib.escapeShellArg localPostgresqlUrl}
           export PGSSLMODE=disable
         '' else ''
-          cat <<EOF >> /run/outline/database.json
+          cat <<EOF > $RUNTIME_DIRECTORY/database.json
           {
             "production": {
               "use_env_variable": "DATABASE_URL",
@@ -712,7 +712,7 @@ in
           export DATABASE_URL=${lib.escapeShellArg cfg.databaseUrl}
         ''}
 
-        cd /run/outline
+        cd $RUNTIME_DIRECTORY
         ${sequelize}/bin/outline-sequelize db:migrate
       '';
 
@@ -770,7 +770,7 @@ in
         RuntimeDirectoryMode = "0750";
         # This working directory is required to find stuff like the set of
         # onboarding files:
-        WorkingDirectory = "${cfg.package}/build";
+        WorkingDirectory = "${cfg.package}/share/outline/build";
       };
     };
   };
